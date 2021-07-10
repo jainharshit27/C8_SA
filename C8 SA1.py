@@ -20,6 +20,16 @@ ground_rect = pygame.Rect(0, 330, 1200, 2)
 
 dino_y_change = 0
 
+def ground_image():
+    global ground, ground_rect
+    image_width = ground.get_width()
+    screen.blit(ground, (ground_rect.x, ground_rect.y))
+    screen.blit(ground, (image_width + ground_rect.x, ground_rect.y))
+    if ground_rect.x <= -image_width:
+        screen.blit(ground, (image_width + ground_rect.x, ground_rect.y))
+        ground_rect.x = 0
+    ground_rect.x -= 1
+
 while True:
     screen.fill((255, 255, 255))
     for event in pygame.event.get():
@@ -69,13 +79,7 @@ while True:
         screen.blit(dino, dino_rect)
         screen.blit(cacti, cactus_rect)
         
-        image_width = ground.get_width()
-        screen.blit(ground, ground_rect)
-        screen.blit(ground, (image_width + ground_rect.x, ground_rect.y))
-        if ground_rect.x <= -image_width:
-            screen.blit(ground, (image_width + ground_rect.x, ground_rect.y))
-            ground_rect.x = 0
-        ground_rect.x -= 1
+        ground_image()
         
         if dino_rect.colliderect(cactus_rect):
             pygame.time.delay(500)
